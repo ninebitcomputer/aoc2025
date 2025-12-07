@@ -4,14 +4,14 @@ let
   utils = import ../utils.nix;
   inherit (utils) mod pow sumList range;
 
-  mods = [11 1010 100100 10001000 1000010000 ];
-
   makeConstraint = p:
 	let
-	  upper = (pow 10 p);
-	  mod = (pow 10 (2 * p + 1)) + upper;
+	  digits = p + 1;
+	  upper = (pow 10 digits);
+	  lower = (upper / 10);
+	  mod = upper + 1;
 	in {
-	  inherit mod upper;
+	  inherit mod upper lower;
 	};
 
   constraints = genList makeConstraint 5;
@@ -19,12 +19,9 @@ let
 	let
 	  q = num / constraint.mod;
 	in
-	  (q < constraint.upper) && (num == q * constraint.mod);
+	  (constraint.lower <= q) && (q < constraint.upper) && (num == q * constraint.mod);
   
-  #invalid = num: any (c: trace c ((num < c.upper) && (mod num c.mod) == 0)) constraints;
   invalid = num: any (c: (fit num c)) constraints;
-  #invalid = num: any (c: false) constraints;
-  #invalid = num: false;
 
   g = r :
 	let
