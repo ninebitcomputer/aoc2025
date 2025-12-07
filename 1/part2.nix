@@ -7,7 +7,8 @@ let
 	  sum = n + spin;
 	  q = sum / 100;
 	  bump = if (spin > 0) then q else 
-		(if (sum > 0) then 0 else 1 - q);
+		(if (sum > 0) then 0 else
+		  (if (n == 0) then -q else 1 - q));
 
 	  occ' = occ + bump;
 	  v = sum - q * 100;
