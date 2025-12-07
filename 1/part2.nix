@@ -15,7 +15,7 @@ let
 
 	  n' = if (v < 0) then v + 100 else v;
     in
-	  builtins.trace (builtins.seq bump (builtins.seq n' { inherit bump spin n'; }))
+	  #builtins.trace (builtins.seq bump (builtins.seq n' { inherit bump spin n'; }))
       builtins.seq n {n = n'; occ = occ';};
 
   result = builtins.foldl' accum {n = 50; occ =0;} data.turns;
